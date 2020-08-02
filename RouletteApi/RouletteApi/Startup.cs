@@ -26,8 +26,8 @@ namespace RouletteApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddSingleton<IConnectionMultiplexer>(x =>
-               ConnectionMultiplexer.Connect(Configuration.GetValue<string>("RedisConnection")));
+            var redis = ConnectionMultiplexer.Connect("localhost");
+            services.AddScoped<IDatabase>(s => redis.GetDatabase());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

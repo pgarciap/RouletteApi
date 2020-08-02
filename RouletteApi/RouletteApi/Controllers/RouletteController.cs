@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using RouletteApi.Models;
 using StackExchange.Redis;
 
 namespace RouletteApi.Controllers
@@ -19,18 +16,55 @@ namespace RouletteApi.Controllers
             _database = database;
         }
 
-
-        [HttpGet ]
-        public string Get([FromQuery]string key)
-        {
-            return _database.StringGet(key);
-        }
-
         [HttpPost]
-        public void Post([FromQuery] KeyValuePair<string,string> keyValue)
+        [Route("createRoulette/")]
+        public string PostCreateRoulette()
         {
-            _database.StringSet(keyValue.Key ,keyValue.Value );
+            string IdRoulete = createNewIDRoullete();
+            _database.StringSet(IdRoulete, "Close");
+
+            return IdRoulete;
         }
 
+        [HttpPut]
+        [Route("StartRoulette/")]
+        public string PutStartRoulette([FromBody] string IdRoulette)
+        {
+            return updateStateRoulette(IdRoulette);
+        }
+
+        [HttpPost("{id}")]
+        public void Post(int id, [FromBody] string value)
+        {
+        }
+
+        private string createNewIDRoullete()
+        {
+            string lastPosition = "";
+            int newPosition = 0;
+            if (!_database.KeyExists("Rouletteposition")) {
+                newPosition = 1;
+            }
+            else
+            {
+                lastPosition= _database.StringGet("Rouletteposition");
+                newPosition = Int16.Parse(lastPosition)+1;
+            }
+            _database.StringGetSet("Rouletteposition", newPosition);
+
+            return "ROU" + newPosition;
+        }
+
+        private string updateStateRoulette(string IDRoulette)
+        {
+            string state = "Denied!";
+            if (_database.KeyExists(IDRoulette))
+            {
+                _database.StringGetSet(IDRoulette,"Open");
+                state = "Success!";
+            }
+
+            return state;
+        }
     }
 }
