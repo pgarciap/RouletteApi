@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "6jCpJ75q9C/9VXR20FxPR83Qdb8AL5n0zHcMVOUQEqhNlWLzZsBi74C/RBxYJbB/8HeRaVEcZiGYk8cecYH7Ig==",
+  "dgSpecHash": "RYAbaO6p/pM/qnwe++stvUCbYincPX+Ccn29VY3STat/HdJb0ikp9hRxU383WbOnTPNjtVvR949Nu2lNyBh4KA==",
   "success": true,
   "projectFilePath": "C:\\Users\\pgarc\\source\\repos\\pgarciap\\RouletteApi\\RouletteApi\\RouletteApi\\RouletteApi.csproj",
   "expectedPackageFiles": [
@@ -9,6 +9,7 @@
     "C:\\Users\\pgarc\\.nuget\\packages\\microsoft.visualstudio.azure.containers.tools.targets\\1.10.9\\microsoft.visualstudio.azure.containers.tools.targets.1.10.9.nupkg.sha512",
     "C:\\Users\\pgarc\\.nuget\\packages\\microsoft.win32.registry\\4.7.0\\microsoft.win32.registry.4.7.0.nupkg.sha512",
     "C:\\Users\\pgarc\\.nuget\\packages\\microsoft.win32.systemevents\\4.7.0\\microsoft.win32.systemevents.4.7.0.nupkg.sha512",
+    "C:\\Users\\pgarc\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512",
     "C:\\Users\\pgarc\\.nuget\\packages\\pipelines.sockets.unofficial\\2.1.16\\pipelines.sockets.unofficial.2.1.16.nupkg.sha512",
     "C:\\Users\\pgarc\\.nuget\\packages\\stackexchange.redis\\2.1.58\\stackexchange.redis.2.1.58.nupkg.sha512",
     "C:\\Users\\pgarc\\.nuget\\packages\\system.buffers\\4.5.1\\system.buffers.4.5.1.nupkg.sha512",

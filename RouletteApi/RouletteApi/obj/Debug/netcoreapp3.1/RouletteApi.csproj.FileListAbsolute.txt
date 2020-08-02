@@ -24,8 +24,6 @@ C:\Users\pgarc\source\repos\pgarciap\RouletteApi\RouletteApi\RouletteApi\bin\Deb
 C:\Users\pgarc\source\repos\pgarciap\RouletteApi\RouletteApi\RouletteApi\bin\Debug\netcoreapp3.1\System.Threading.Channels.dll
 C:\Users\pgarc\source\repos\pgarciap\RouletteApi\RouletteApi\RouletteApi\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp2.0\System.Diagnostics.PerformanceCounter.dll
 C:\Users\pgarc\source\repos\pgarciap\RouletteApi\RouletteApi\RouletteApi\bin\Debug\netcoreapp3.1\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
-C:\Users\pgarc\source\repos\pgarciap\RouletteApi\RouletteApi\RouletteApi\obj\Debug\netcoreapp3.1\RouletteApi.csproj.CoreCompileInputs.cache
-C:\Users\pgarc\source\repos\pgarciap\RouletteApi\RouletteApi\RouletteApi\obj\Debug\netcoreapp3.1\RouletteApi.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\pgarc\source\repos\pgarciap\RouletteApi\RouletteApi\RouletteApi\obj\Debug\netcoreapp3.1\RouletteApi.csproj.CopyComplete
 C:\Users\pgarc\source\repos\pgarciap\RouletteApi\RouletteApi\RouletteApi\obj\Debug\netcoreapp3.1\RouletteApi.dll
 C:\Users\pgarc\source\repos\pgarciap\RouletteApi\RouletteApi\RouletteApi\obj\Debug\netcoreapp3.1\RouletteApi.pdb
