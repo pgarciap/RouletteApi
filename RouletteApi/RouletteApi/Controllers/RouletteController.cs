@@ -85,11 +85,20 @@ namespace RouletteApi.Controllers
         }
 
         [HttpGet]
-        public List<BetResult> GetListBet(string IdRoulette)
+        public List<Roulette> GetListOfRoulettesCreated(string IdRoulette)
         {
-
+            int RoulettePosition = Int16.Parse(_database.StringGet("Rouletteposition"));
+            List<Roulette> ListBetFromCache = new List<Roulette>();
+            Roulette RouletteM = new Roulette();
+            for (int i = 1; i <= RoulettePosition; i++)
+            {
+                RouletteM = new Roulette();
+                RouletteM.IdRoulette = "ROU" + i;
+                RouletteM.State = _database.StringGet(RouletteM.IdRoulette);
+                ListBetFromCache.Add(RouletteM);
+            }
+            return ListBetFromCache;
         }
-
 
             private string createNewID(string strCode, string keyPosition )
         {
