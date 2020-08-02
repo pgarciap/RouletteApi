@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using RouletteApi.Models;
 using StackExchange.Redis;
 
@@ -56,13 +57,41 @@ namespace RouletteApi.Controllers
             {
                 betR.Result = "Error";
             }
-            betR.id = createNewID("BET", "Rouletteposition");
+            betR.id = createNewID("BET", "BetPosition");
             betR.DateTimeResult = Convert.ToDateTime(DateTime.UtcNow.ToString("s") + "Z");
-            //var betResultInString = JsonConvert.SerializeObject(betR);
+            _database.StringSet(betR.id, JsonConvert.SerializeObject(betR));
+        }
+
+        [HttpGet]
+        public List<BetResult> GetListBet(string IdRoulette)
+        {
+            BetResult betFromCache = new BetResult();
+            List<BetResult> ListBetFromCache = new List<BetResult>();
+            int BetPosition = Int16.Parse(_database.StringGet("BetPosition"));
+            if (_database.KeyExists(IdRoulette))
+            {
+                for (int i = 1; i <= BetPosition; i++)
+                {
+                    betFromCache = new BetResult();
+                    betFromCache = JsonConvert.DeserializeObject<BetResult>(_database.StringGet("BET" + i));
+                    if (betFromCache.Result != "Error" && IdRoulette == betFromCache.idRoulette)
+                    {
+                        ListBetFromCache.Add(betFromCache);
+                    }
+                }
+            }
+
+            return ListBetFromCache;
+        }
+
+        [HttpGet]
+        public List<BetResult> GetListBet(string IdRoulette)
+        {
 
         }
 
-        private string createNewID(string strCode, string keyPosition )
+
+            private string createNewID(string strCode, string keyPosition )
         {
             string lastPosition = "";
             int newPosition = 0;
