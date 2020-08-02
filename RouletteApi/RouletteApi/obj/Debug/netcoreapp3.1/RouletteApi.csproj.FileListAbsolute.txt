@@ -1,0 +1,10 @@
+C:\Users\pgarc\source\repos\pgarciap\RouletteApi\RouletteApi\RouletteApi\bin\Debug\netcoreapp3.1\appsettings.Development.json
+C:\Users\pgarc\source\repos\pgarciap\RouletteApi\RouletteApi\RouletteApi\bin\Debug\netcoreapp3.1\appsettings.json
+C:\Users\pgarc\source\repos\pgarciap\RouletteApi\RouletteApi\RouletteApi\bin\Debug\netcoreapp3.1\Properties\launchSettings.json
+C:\Users\pgarc\source\repos\pgarciap\RouletteApi\RouletteApi\RouletteApi\obj\Debug\netcoreapp3.1\RouletteApi.csprojAssemblyReference.cache
+C:\Users\pgarc\source\repos\pgarciap\RouletteApi\RouletteApi\RouletteApi\obj\Debug\netcoreapp3.1\RouletteApi.AssemblyInfoInputs.cache
+C:\Users\pgarc\source\repos\pgarciap\RouletteApi\RouletteApi\RouletteApi\obj\Debug\netcoreapp3.1\RouletteApi.AssemblyInfo.cs
+C:\Users\pgarc\source\repos\pgarciap\RouletteApi\RouletteApi\RouletteApi\obj\Debug\netcoreapp3.1\RouletteApi.RazorTargetAssemblyInfo.cache
+C:\Users\pgarc\source\repos\pgarciap\RouletteApi\RouletteApi\RouletteApi\obj\Debug\netcoreapp3.1\staticwebassets\RouletteApi.StaticWebAssets.Manifest.cache
+C:\Users\pgarc\source\repos\pgarciap\RouletteApi\RouletteApi\RouletteApi\obj\Debug\netcoreapp3.1\staticwebassets\RouletteApi.StaticWebAssets.xml
+C:\Users\pgarc\source\repos\pgarciap\RouletteApi\RouletteApi\RouletteApi\bin\Debug\netcoreapp3.1\RouletteApi.exe
