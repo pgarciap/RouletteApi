@@ -13,6 +13,6 @@ namespace RouletteApi.Models
         public string BetInformation { get; set; }
         public int Amount { get; set; }
         public string Result { get; set; }
-        public DateTime DateTimeResult { get; set;}
+        public string DateTimeResult { get; set;}
     }
 }

@@ -33,18 +33,17 @@ namespace RouletteApi.Controllers
 
         [HttpPut]
         [Route("StartRoulette/")]
-        public string PutStartRoulette([FromBody] string IdRoulette)
+        public string PutStartRoulette([FromQuery] string IdRoulette)
         {
             return updateStateRoulette(IdRoulette);
         }
 
-        [HttpPost("{userId}")]
-        [Route("CreateBet/")]
-        public void PostCreateBet(string userId, [FromBody] Bet model)
+        [HttpPost]
+        [Route("CreateBet/{userId}")]
+        public string PostCreateBet(string userId, [FromBody] Bet model)
         {
             BetResult betR = new BetResult();
             Random rnd = new Random();
-            string IdBet = "";
             betR.idRoulette = model.IdRoulette;
             betR.userId = userId;
             betR.Amount = model.Amount;
@@ -58,12 +57,15 @@ namespace RouletteApi.Controllers
                 betR.Result = "Error";
             }
             betR.id = createNewID("BET", "BetPosition");
-            betR.DateTimeResult = Convert.ToDateTime(DateTime.UtcNow.ToString("s") + "Z");
+            betR.DateTimeResult = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ");
             _database.StringSet(betR.id, JsonConvert.SerializeObject(betR));
+
+            return betR.Result;
         }
 
         [HttpGet]
-        public List<BetResult> GetListBet(string IdRoulette)
+        [Route("GetCloseBet/")]
+        public List<BetResult> GetCloseBet([FromQuery] string IdRoulette)
         {
             BetResult betFromCache = new BetResult();
             List<BetResult> ListBetFromCache = new List<BetResult>();
@@ -79,13 +81,15 @@ namespace RouletteApi.Controllers
                         ListBetFromCache.Add(betFromCache);
                     }
                 }
+                _database.StringGetSet(IdRoulette, "Close");
             }
 
             return ListBetFromCache;
         }
 
         [HttpGet]
-        public List<Roulette> GetListOfRoulettesCreated(string IdRoulette)
+        [Route("ListRouletteCreate/")]
+        public List<Roulette> GetListOfRoulettesCreated()
         {
             int RoulettePosition = Int16.Parse(_database.StringGet("Rouletteposition"));
             List<Roulette> ListBetFromCache = new List<Roulette>();
@@ -97,6 +101,7 @@ namespace RouletteApi.Controllers
                 RouletteM.State = _database.StringGet(RouletteM.IdRoulette);
                 ListBetFromCache.Add(RouletteM);
             }
+
             return ListBetFromCache;
         }
 
@@ -112,7 +117,7 @@ namespace RouletteApi.Controllers
                 lastPosition= _database.StringGet(keyPosition);
                 newPosition = Int16.Parse(lastPosition)+1;
             }
-            _database.StringGetSet(strCode, newPosition);
+            _database.StringGetSet(keyPosition, newPosition);
 
             return strCode + newPosition;
         }
@@ -141,7 +146,7 @@ namespace RouletteApi.Controllers
             {
                 result = true;
 
-                if (betR.BetInformation.Trim() == color1 || betR.BetInformation.Trim() == color2)
+                if (betR.BetInformation.Trim().ToUpper() == color1.ToUpper() || betR.BetInformation.Trim().ToUpper() == color2.ToUpper())
                 {
                     result = true;
                 }
