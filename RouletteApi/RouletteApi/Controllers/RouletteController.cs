@@ -25,17 +25,32 @@ namespace RouletteApi.Controllers
         [Route("createRoulette/")]
         public string PostCreateRoulette()
         {
-            string IdRoulete = createNewID("ROU", "Rouletteposition");
-            _database.StringSet(IdRoulete, "Close");
-
-            return IdRoulete;
+            try
+            {
+                string IdRoulete = createNewID("ROU", "Rouletteposition");
+                _database.StringSet(IdRoulete, "Close");
+                return IdRoulete;
+            }
+            catch (Exception ex)
+            {
+                return ex.Message.ToString();
+            }
         }
 
         [HttpPut]
         [Route("StartRoulette/")]
         public string PutStartRoulette([FromQuery] string IdRoulette)
         {
-            return updateStateRoulette(IdRoulette);
+            try
+            {
+                String Update = updateStateRoulette(IdRoulette);
+
+                return Update;
+            }
+            catch (Exception ex)
+            {
+                return ex.Message.ToString();
+            }
         }
 
         [HttpPost]
@@ -44,47 +59,60 @@ namespace RouletteApi.Controllers
         {
             BetResult betR = new BetResult();
             Random rnd = new Random();
-            betR.idRoulette = model.IdRoulette;
-            betR.userId = userId;
-            betR.Amount = model.Amount;
-            betR.BetInformation = model.BetInformation;
-            if (validateBet(betR) && validateIdRoulete(betR))
+            try
             {
-                betR.Result = rnd.Next(1, 3) == 1 ? "Win" : "Lose";
-            }
-            else
-            {
-                betR.Result = "Error";
-            }
-            betR.id = createNewID("BET", "BetPosition");
-            betR.DateTimeResult = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ");
-            _database.StringSet(betR.id, JsonConvert.SerializeObject(betR));
+                betR.idRoulette = model.IdRoulette;
+                betR.userId = userId;
+                betR.Amount = model.Amount;
+                betR.BetInformation = model.BetInformation;
+                if (validateBet(betR) && validateIdRoulete(betR))
+                {
+                    betR.Result = rnd.Next(1, 3) == 1 ? "Win" : "Lose";
+                }
+                else
+                {
+                    betR.Result = "Error amount or the roulette doesnt exist";
+                }
+                betR.id = createNewID("BET", "BetPosition");
+                betR.DateTimeResult = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ");
+                _database.StringSet(betR.id, JsonConvert.SerializeObject(betR));
 
-            return betR.Result;
+                return betR.Result;
+            } catch (Exception ex)
+            {
+                return ex.Message.ToString();
+            }
         }
 
         [HttpGet]
-        [Route("GetCloseBet/")]
+        [Route("CloseBet/")]
         public List<BetResult> GetCloseBet([FromQuery] string IdRoulette)
         {
-            BetResult betFromCache = new BetResult();
-            List<BetResult> ListBetFromCache = new List<BetResult>();
-            int BetPosition = Int16.Parse(_database.StringGet("BetPosition"));
-            if (_database.KeyExists(IdRoulette))
+            try
             {
-                for (int i = 1; i <= BetPosition; i++)
+                BetResult betFromCache = new BetResult();
+                List<BetResult> ListBetFromCache = new List<BetResult>();
+                int BetPosition = Int16.Parse(_database.StringGet("BetPosition"));
+                if (_database.KeyExists(IdRoulette))
                 {
-                    betFromCache = new BetResult();
-                    betFromCache = JsonConvert.DeserializeObject<BetResult>(_database.StringGet("BET" + i));
-                    if (betFromCache.Result != "Error" && IdRoulette == betFromCache.idRoulette)
+                    for (int i = 1; i <= BetPosition; i++)
                     {
-                        ListBetFromCache.Add(betFromCache);
+                        betFromCache = new BetResult();
+                        betFromCache = JsonConvert.DeserializeObject<BetResult>(_database.StringGet("BET" + i));
+                        if (betFromCache.Result != "Error amount or the roulette doesnt exist" && IdRoulette == betFromCache.idRoulette)
+                        {
+                            ListBetFromCache.Add(betFromCache);
+                        }
                     }
+                    _database.StringGetSet(IdRoulette, "Close");
                 }
-                _database.StringGetSet(IdRoulette, "Close");
-            }
 
-            return ListBetFromCache;
+                return ListBetFromCache;
+            }
+            catch 
+            {
+                return null;
+            }
         }
 
         [HttpGet]
@@ -94,15 +122,22 @@ namespace RouletteApi.Controllers
             int RoulettePosition = Int16.Parse(_database.StringGet("Rouletteposition"));
             List<Roulette> ListBetFromCache = new List<Roulette>();
             Roulette RouletteM = new Roulette();
-            for (int i = 1; i <= RoulettePosition; i++)
+            try
             {
-                RouletteM = new Roulette();
-                RouletteM.IdRoulette = "ROU" + i;
-                RouletteM.State = _database.StringGet(RouletteM.IdRoulette);
-                ListBetFromCache.Add(RouletteM);
-            }
+                for (int i = 1; i <= RoulettePosition; i++)
+                {
+                    RouletteM = new Roulette();
+                    RouletteM.IdRoulette = "ROU" + i;
+                    RouletteM.State = _database.StringGet(RouletteM.IdRoulette);
+                    ListBetFromCache.Add(RouletteM);
+                }
 
-            return ListBetFromCache;
+                return ListBetFromCache;
+            }
+            catch 
+            {
+                return null;
+            }
         }
 
             private string createNewID(string strCode, string keyPosition )
@@ -142,10 +177,8 @@ namespace RouletteApi.Controllers
             string color2 = configuration.GetValue<string>("Color2");
             int MinNum = configuration.GetValue<int>("MinNum");
             int MaxNum = configuration.GetValue<int>("MaxNum");
-            if (betR.Amount < maxAmount)
+            if (betR.Amount < maxAmount && betR.Amount > 0)
             {
-                result = true;
-
                 if (betR.BetInformation.Trim().ToUpper() == color1.ToUpper() || betR.BetInformation.Trim().ToUpper() == color2.ToUpper())
                 {
                     result = true;
